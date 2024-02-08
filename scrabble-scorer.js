@@ -57,22 +57,19 @@ let vowelBonusScorer = (word) => {
    return score
 }
 
-let scrabbleScorer = (word) => {
-      word = word.toUpperCase();
-      let score = 0;
-    
-      for (let i = 0; i < word.length; i++) {
-    
-        for (const pointValue in oldPointStructure) {
-    
-          if (oldPointStructure[pointValue].includes(word[i])) {
-           score += 1
-        }
-      }
+function scrabbleScorer(word) {
+   let score = 0;
+   const lowercaseWord = word.toLowerCase();
+ 
+   for (let i = 0; i < lowercaseWord.length; i++) {
+     const letter = lowercaseWord[i];
+     if (newPointStructure.hasOwnProperty(letter)) {
+       score += newPointStructure[letter];
+     }
    }
-      return score;
-}
-
+ 
+   return score;
+ }
 
 const scoringAlgorithms = [
    objectOne = {name: "Simple Score", description: "Each letter is worth 1 point.", scorerFunction: simpleScorer},
@@ -94,21 +91,21 @@ function scorerPrompt(userInput) {
 }
 
 function transform(oldPointStructure) {
-   const newPointStructure = {};
+   let newPointStructure = {};
  
-   for (const key in oldPointStructure) {
-     const value = parseInt(key);
+   for (let key in oldPointStructure) {
+     let value = parseInt(key);
  
-     oldPointStructure[key].forEach(letter => {
-       newPointStructure[letter.toLowerCase()] = value;
-     });
+     for (let i = 0; i < oldPointStructure[key].length; i++) {
+       let letter = oldPointStructure[key][i].toLowerCase();
+       newPointStructure[letter] = value;
+     }
    }
  
    return newPointStructure;
  }
- const newPointStructure = transform(oldPointStructure);
+let newPointStructure = transform(oldPointStructure);
 
- console.log(newPointStructure);
 
 function runProgram() {
    let userWord = initialPrompt();
