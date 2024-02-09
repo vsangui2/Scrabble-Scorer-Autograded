@@ -90,19 +90,15 @@ function scorerPrompt(userInput) {
 } 
 }
 
-function transform(oldPointStructure) {
-   let newPointStructure = {};
- 
-   for (let key in oldPointStructure) {
-     let value = parseInt(key);
- 
-     for (let i = 0; i < oldPointStructure[key].length; i++) {
-       let letter = oldPointStructure[key][i].toLowerCase();
-       newPointStructure[letter] = value;
-     }
-   }
- 
-   return newPointStructure;
+let transform = function(oldPointStructure) {
+   let newPointStructure = { };
+   for (key in oldPointStructure) {
+     keyArray = oldPointStructure[key];
+     for(i=0; i<keyArray.length; i++) {
+       newPointStructure[keyArray[i].toLowerCase()] = Number(key);
+       }
+   }        
+   return newPointStructure
  }
 let newPointStructure = transform(oldPointStructure);
 
@@ -111,8 +107,6 @@ function runProgram() {
    let userWord = initialPrompt();
    scorerPrompt(userWord);
 }
-
-
 
 // Don't write any code below this line //
 // And don't change these or your program will not run as expected //
